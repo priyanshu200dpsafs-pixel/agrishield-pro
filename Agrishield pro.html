@@ -1,0 +1,2027 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Krishi Suraksha - Digital Farm Management Portal</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Hind:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        :root {
+            --primary: #2e7d32;
+            --primary-light: #4caf50;
+            --primary-dark: #1b5e20;
+            --secondary: #ff9800;
+            --accent: #f44336;
+            --light: #f5f5f5;
+            --dark: #333;
+            --gray: #757575;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --saffron: #FF9933;
+            --white: #FFFFFF;
+            --green: #138808;
+            --blue: #000080;
+            --indian-yellow: #FFC107;
+            --indian-red: #E53935;
+            --indian-green: #43A047;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', 'Hind', sans-serif;
+        }
+
+        body {
+            background-color: #f8fdf8;
+            color: var(--dark);
+            transition: all 0.3s ease;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><rect width="100" height="100" fill="%23f8fdf8"/><path d="M0 0 L100 100 M100 0 L0 100" stroke="%23e8f5e9" stroke-width="0.5"/></svg>');
+        }
+
+        .hindi-text {
+            font-family: 'Hind', sans-serif;
+        }
+
+        .container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Login Page Styles */
+        .login-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            min-height: 100vh;
+            background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), 
+                        url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="400" height="400" viewBox="0 0 400 400"><rect width="400" height="400" fill="%232e7d32"/><path d="M200,50 C250,80 300,120 320,200 C300,280 250,320 200,350 C150,320 100,280 80,200 C100,120 150,80 200,50 Z" fill="%234CAF50" opacity="0.3"/><circle cx="200" cy="200" r="80" fill="%231B5E20" opacity="0.5"/></svg>');
+            background-size: cover;
+            padding: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .login-container::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><path d="M20,20 L80,20 L80,80 L20,80 Z" fill="none" stroke="%23FFC107" stroke-width="2" opacity="0.1"/><path d="M30,30 L70,30 L70,70 L30,70 Z" fill="none" stroke="%23FFC107" stroke-width="1" opacity="0.1"/></svg>');
+            background-size: 100px 100px;
+            opacity: 0.1;
+        }
+
+        .login-box {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            width: 100%;
+            max-width: 450px;
+            padding: 30px;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+            border: 1px solid var(--indian-yellow);
+            backdrop-filter: blur(5px);
+        }
+
+        .logo {
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .logo h1 {
+            color: var(--primary);
+            font-size: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+        }
+
+        .logo i {
+            font-size: 36px;
+            color: var(--indian-yellow);
+        }
+
+        .logo-decoration {
+            position: absolute;
+            top: -10px;
+            right: -10px;
+            width: 50px;
+            height: 50px;
+            background: var(--saffron);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 20px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+
+        .language-selector {
+            display: flex;
+            justify-content: flex-end;
+            margin-bottom: 15px;
+        }
+
+        .language-selector select {
+            padding: 8px 12px;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+            background: white;
+            width: 170px;
+            font-weight: 500;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        .login-form .input-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .login-form label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--primary-dark);
+        }
+
+        .login-form input, .login-form select {
+            width: 100%;
+            padding: 14px 16px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: all 0.3s;
+            background: #f9f9f9;
+        }
+
+        .login-form input:focus, .login-form select:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(46, 125, 50, 0.2);
+            outline: none;
+            background: white;
+        }
+
+        .login-btn {
+            background: linear-gradient(to right, var(--primary), var(--primary-dark));
+            color: white;
+            border: none;
+            padding: 14px;
+            width: 100%;
+            border-radius: 8px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .login-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+        }
+
+        .login-btn:active {
+            transform: translateY(0);
+        }
+
+        .login-btn::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: 0.5s;
+        }
+
+        .login-btn:hover::after {
+            left: 100%;
+        }
+
+        .demo-accounts {
+            margin-top: 25px;
+            padding: 20px;
+            background: #f9f9f9;
+            border-radius: 10px;
+            text-align: left;
+            border-left: 4px solid var(--indian-yellow);
+        }
+
+        .demo-accounts h3 {
+            margin-bottom: 12px;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .demo-account {
+            padding: 10px;
+            border-bottom: 1px solid #eee;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .demo-account:last-child {
+            border-bottom: none;
+        }
+
+        .demo-account i {
+            color: var(--primary);
+        }
+
+        /* Dashboard Styles */
+        .dashboard {
+            display: none;
+            width: 100%;
+        }
+
+        .sidebar {
+            width: 280px;
+            background: linear-gradient(to bottom, var(--primary), var(--primary-dark));
+            color: white;
+            height: 100vh;
+            position: fixed;
+            overflow-y: auto;
+            transition: all 0.3s;
+            z-index: 100;
+            box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+        }
+
+        .sidebar-header {
+            padding: 25px 20px;
+            text-align: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(0,0,0,0.1);
+            position: relative;
+        }
+
+        .sidebar-header h2 {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            font-size: 22px;
+        }
+
+        .sidebar-header::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 10%;
+            width: 80%;
+            height: 2px;
+            background: linear-gradient(to right, transparent, var(--indian-yellow), transparent);
+        }
+
+        .sidebar-menu {
+            padding: 20px 0;
+        }
+
+        .menu-item {
+            padding: 15px 25px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin: 5px 10px;
+            border-radius: 8px;
+        }
+
+        .menu-item:hover, .menu-item.active {
+            background: rgba(255, 255, 255, 0.15);
+            transform: translateX(5px);
+        }
+
+        .menu-item i {
+            width: 20px;
+            text-align: center;
+            font-size: 18px;
+            color: var(--indian-yellow);
+        }
+
+        .main-content {
+            flex: 1;
+            margin-left: 280px;
+            padding: 25px;
+            transition: all 0.3s;
+            background: #f8fdf8;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+            margin-bottom: 25px;
+            border-bottom: 1px solid #e0e0e0;
+            background: white;
+            border-radius: 12px;
+            padding: 20px 30px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        }
+
+        .header-left h1 {
+            color: var(--primary);
+            font-size: 28px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: #f5f5f5;
+            padding: 8px 15px;
+            border-radius: 30px;
+            border: 1px solid #e0e0e0;
+        }
+
+        .user-avatar {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--indian-yellow));
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 18px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        .dashboard-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 25px;
+            margin-bottom: 35px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.08);
+            padding: 25px;
+            transition: transform 0.3s, box-shadow 0.3s;
+            border-top: 4px solid var(--indian-yellow);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 20px rgba(0, 0, 0, 0.12);
+        }
+
+        .card::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(to right, var(--saffron), var(--green), var(--primary));
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .card-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--gray);
+        }
+
+        .card-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 22px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        .card-value {
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: var(--primary-dark);
+        }
+
+        .card-change {
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .positive {
+            color: var(--primary);
+        }
+
+        .negative {
+            color: var(--accent);
+        }
+
+        .dashboard-charts {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 25px;
+            margin-bottom: 35px;
+        }
+
+        .chart-container {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.08);
+            padding: 25px;
+            border-top: 4px solid var(--indian-yellow);
+        }
+
+        .chart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .chart-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--primary-dark);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .chart-actions select {
+            padding: 8px 12px;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+            background: white;
+        }
+
+        .chart-wrapper {
+            height: 300px;
+            position: relative;
+        }
+
+        .recent-activities {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.08);
+            padding: 25px;
+            border-top: 4px solid var(--indian-yellow);
+        }
+
+        .activity-list {
+            margin-top: 20px;
+        }
+
+        .activity-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 15px 0;
+            border-bottom: 1px solid #f0f0f0;
+            transition: background 0.3s;
+        }
+
+        .activity-item:hover {
+            background: #f9f9f9;
+            border-radius: 8px;
+            padding-left: 10px;
+            padding-right: 10px;
+        }
+
+        .activity-item:last-child {
+            border-bottom: none;
+        }
+
+        .activity-icon {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 18px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        .activity-details {
+            flex: 1;
+        }
+
+        .activity-title {
+            font-weight: 500;
+        }
+
+        .activity-time {
+            font-size: 13px;
+            color: var(--gray);
+        }
+
+        .dashboard-section {
+            display: none;
+        }
+
+        .dashboard-section.active {
+            display: block;
+        }
+
+        .visitor-log, .disease-tracking, .vaccine-tracker, .market-trends, .poultry-production, .pig-production {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.08);
+            padding: 25px;
+            margin-bottom: 25px;
+            border-top: 4px solid var(--indian-yellow);
+        }
+
+        .section-title {
+            font-size: 24px;
+            margin-bottom: 25px;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding-bottom: 12px;
+            border-bottom: 2px solid #f0f0f0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        th, td {
+            padding: 15px 18px;
+            text-align: left;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        th {
+            background: linear-gradient(to right, var(--primary-light), var(--primary));
+            color: white;
+            font-weight: 600;
+        }
+
+        tr:hover {
+            background-color: #f9f9f9;
+        }
+
+        .status-badge {
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .status-completed {
+            background: #e8f5e9;
+            color: var(--primary);
+        }
+
+        .status-pending {
+            background: #fff3e0;
+            color: var(--secondary);
+        }
+
+        .status-critical {
+            background: #ffebee;
+            color: var(--accent);
+        }
+
+        .btn {
+            padding: 10px 18px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(to right, var(--primary), var(--primary-dark));
+            color: white;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+        }
+
+        .btn-secondary {
+            background: linear-gradient(to right, var(--secondary), #e68900);
+            color: white;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        .btn-secondary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+        }
+
+        .map-container {
+            height: 400px;
+            background: #e9e9e9;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 20px;
+            overflow: hidden;
+            position: relative;
+            background: linear-gradient(135deg, #e0f2f1, #f1f8e9);
+        }
+
+        .map-placeholder {
+            text-align: center;
+            color: var(--gray);
+            z-index: 1;
+        }
+
+        .map-placeholder i {
+            font-size: 60px;
+            margin-bottom: 15px;
+            color: var(--primary);
+            opacity: 0.7;
+        }
+
+        .indian-flag {
+            height: 20px;
+            width: 30px;
+            background: linear-gradient(to bottom, #ff9933 33%, #ffffff 33%, #ffffff 66%, #138808 66%);
+            display: inline-block;
+            margin-right: 8px;
+            border: 1px solid #ccc;
+            border-radius: 2px;
+        }
+
+        .language-option {
+            display: flex;
+            align-items: center;
+        }
+
+        .schemes-alert {
+            background: linear-gradient(135deg, #fff9c4, #ffecb3);
+            color: #5d4037;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 25px;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            border-left: 6px solid var(--saffron);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        }
+
+        .schemes-alert i {
+            font-size: 32px;
+            color: var(--saffron);
+        }
+
+        .schemes-alert h3 {
+            margin-bottom: 8px;
+            color: #5d4037;
+        }
+
+        .cultural-decoration {
+            position: absolute;
+            width: 150px;
+            height: 150px;
+            opacity: 0.05;
+            z-index: 0;
+        }
+
+        .decoration-1 {
+            top: 10%;
+            right: 5%;
+            background: radial-gradient(circle, var(--saffron) 0%, transparent 70%);
+        }
+
+        .decoration-2 {
+            bottom: 10%;
+            left: 5%;
+            background: radial-gradient(circle, var(--green) 0%, transparent 70%);
+        }
+
+        /* Indian Pattern Background */
+        .indian-pattern {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><g fill="%2343A047" opacity="0.03"><circle cx="20" cy="20" r="5"/><circle cx="50" cy="50" r="8"/><circle cx="80" cy="80" r="5"/><circle cx="80" cy="20" r="5"/><circle cx="20" cy="80" r="5"/></g></svg>');
+            z-index: 0;
+        }
+
+        @media (max-width: 992px) {
+            .dashboard-charts {
+                grid-template-columns: 1fr;
+            }
+            
+            .sidebar {
+                width: 80px;
+            }
+            
+            .sidebar .menu-text {
+                display: none;
+            }
+            
+            .main-content {
+                margin-left: 80px;
+            }
+            
+            .sidebar-header h2 span {
+                display: none;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .dashboard-cards {
+                grid-template-columns: 1fr;
+            }
+            
+            .sidebar {
+                width: 0;
+                overflow: hidden;
+            }
+            
+            .main-content {
+                margin-left: 0;
+            }
+            
+            .mobile-menu-btn {
+                display: block;
+            }
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 24px;
+            color: var(--primary);
+            cursor: pointer;
+        }
+
+        .cultural-motif {
+            display: inline-block;
+            margin: 0 5px;
+            color: var(--indian-yellow);
+        }
+    </style>
+</head>
+<body>
+    <!-- Login Page -->
+    <div class="login-container" id="login-page">
+        <div class="cultural-decoration decoration-1"></div>
+        <div class="cultural-decoration decoration-2"></div>
+        <div class="indian-pattern"></div>
+        
+        <div class="login-box">
+            <div class="logo">
+                <div class="logo-decoration">
+                    <i class="fas fa-leaf"></i>
+                </div>
+                <h1><i class="fas fa-tractor"></i> कृषि सुरक्षा</h1>
+                <p>Krishi Suraksha - Digital Farm Management Portal</p>
+            </div>
+            
+            <div class="language-selector">
+                <select id="language-select">
+                    <option value="en" class="language-option"><span class="indian-flag"></span> English</option>
+                    <option value="hi" class="language-option"><span class="indian-flag"></span> हिंदी (Hindi)</option>
+                    <option value="ta" class="language-option"><span class="indian-flag"></span> தமிழ் (Tamil)</option>
+                    <option value="te" class="language-option"><span class="indian-flag"></span> తెలుగు (Telugu)</option>
+                    <option value="kn" class="language-option"><span class="indian-flag"></span> ಕನ್ನಡ (Kannada)</option>
+                    <option value="ml" class="language-option"><span class="indian-flag"></span> മലയാളം (Malayalam)</option>
+                    <option value="bn" class="language-option"><span class="indian-flag"></span> বাংলা (Bengali)</option>
+                    <option value="mr" class="language-option"><span class="indian-flag"></span> मराठी (Marathi)</option>
+                </select>
+            </div>
+            
+            <form class="login-form" id="login-form">
+                <div class="input-group">
+                    <label for="user-type" id="user-type-label">User Type</label>
+                    <select id="user-type">
+                        <option value="farmer">Farmer / किसान</option>
+                        <option value="veterinarian">Veterinarian / पशु चिकित्सक</option>
+                        <option value="manager">Farm Manager / फार्म प्रबंधक</option>
+                        <option value="admin">Administrator / प्रशासक</option>
+                    </select>
+                </div>
+                
+                <div class="input-group">
+                    <label for="username" id="username-label">Username</label>
+                    <input type="text" id="username" placeholder="Enter your username" required>
+                </div>
+                
+                <div class="input-group">
+                    <label for="password" id="password-label">Password</label>
+                    <input type="password" id="password" placeholder="Enter your password" required>
+                </div>
+                
+                <button type="submit" class="login-btn" id="login-button">
+                    <i class="fas fa-sign-in-alt"></i> Login / लॉगिन
+                </button>
+            </form>
+            
+            <div class="demo-accounts">
+                <h3><i class="fas fa-key"></i> Demo Accounts (For Judges)</h3>
+                <div class="demo-account">
+                    <i class="fas fa-user"></i>
+                    <div><strong>Farmer / किसान:</strong> user: farmer1 | pass: demo123</div>
+                </div>
+                <div class="demo-account">
+                    <i class="fas fa-user-md"></i>
+                    <div><strong>Veterinarian / पशु चिकित्सक:</strong> user: vet1 | pass: demo123</div>
+                </div>
+                <div class="demo-account">
+                    <i class="fas fa-user-tie"></i>
+                    <div><strong>Manager / प्रबंधक:</strong> user: manager1 | pass: demo123</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Dashboard -->
+    <div class="dashboard" id="dashboard">
+        <div class="indian-pattern"></div>
+        <div class="sidebar">
+            <div class="sidebar-header">
+                <h2><i class="fas fa-tractor"></i> <span>कृषि सुरक्षा</span></h2>
+            </div>
+            <div class="sidebar-menu">
+                <div class="menu-item active" data-target="dashboard-content">
+                    <i class="fas fa-tachometer-alt"></i>
+                    <span class="menu-text">Dashboard / डैशबोर्ड</span>
+                </div>
+                <div class="menu-item" data-target="visitor-log">
+                    <i class="fas fa-users"></i>
+                    <span class="menu-text">Visitor Tracking / आगंतुक ट्रैकिंग</span>
+                </div>
+                <div class="menu-item" data-target="disease-tracking">
+                    <i class="fas fa-virus"></i>
+                    <span class="menu-text">Disease Tracking / रोग ट्रैकिंग</span>
+                </div>
+                <div class="menu-item" data-target="vaccine-tracker">
+                    <i class="fas fa-syringe"></i>
+                    <span class="menu-text">Vaccine Tracker / टीका ट्रैकर</span>
+                </div>
+                <div class="menu-item" data-target="poultry-production">
+                    <i class="fas fa-egg"></i>
+                    <span class="menu-text">Poultry Production / कुक्कुट उत्पादन</span>
+                </div>
+                <div class="menu-item" data-target="pig-production">
+                    <i class="fas fa-piggy-bank"></i>
+                    <span class="menu-text">Pig Production / सुअर उत्पादन</span>
+                </div>
+                <div class="menu-item" data-target="market-trends">
+                    <i class="fas fa-chart-line"></i>
+                    <span class="menu-text">Market Trends / बाजार रुझान</span>
+                </div>
+                <div class="menu-item" id="logout-btn">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span class="menu-text">Logout / लॉगआउट</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="main-content">
+            <div class="header">
+                <div class="header-left">
+                    <button class="mobile-menu-btn" id="mobile-menu-toggle">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                    <h1><i class="fas fa-tractor cultural-motif"></i> Farm Dashboard / फार्म डैशबोर्ड</h1>
+                </div>
+                <div class="header-right">
+                    <div class="language-selector">
+                        <select id="dashboard-language">
+                            <option value="en" class="language-option"><span class="indian-flag"></span> English</option>
+                            <option value="hi" class="language-option"><span class="indian-flag"></span> हिंदी</option>
+                            <option value="ta" class="language-option"><span class="indian-flag"></span> தமிழ்</option>
+                            <option value="te" class="language-option"><span class="indian-flag"></span> తెలుగు</option>
+                            <option value="kn" class="language-option"><span class="indian-flag"></span> ಕನ್ನಡ</option>
+                            <option value="ml" class="language-option"><span class="indian-flag"></span> മലയാളം</option>
+                            <option value="bn" class="language-option"><span class="indian-flag"></span> বাংলা</option>
+                            <option value="mr" class="language-option"><span class="indian-flag"></span> मराठी</option>
+                        </select>
+                    </div>
+                    <div class="user-info">
+                        <div class="user-avatar">आ</div>
+                        <div>
+                            <div class="user-name">अमित कुमार</div>
+                            <div class="user-role">Farm Manager / फार्म प्रबंधक</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Government Schemes Alert -->
+            <div class="schemes-alert">
+                <i class="fas fa-info-circle"></i>
+                <div>
+                    <h3>Government Schemes Alert / सरकारी योजना सूचना</h3>
+                    <p>New subsidies available for poultry and pig farming. Apply before 30th November 2025.</p>
+                    <p class="hindi-text">कुक्कुट और सुअर पालन के लिए नई सब्सिडी उपलब्ध। 30 नवंबर 2025 से पहले आवेदन करें।</p>
+                </div>
+            </div>
+
+            <!-- Dashboard Content -->
+            <div id="dashboard-content" class="dashboard-section active">
+                <div class="dashboard-cards">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-title">Total Livestock / कुल पशुधन</div>
+                            <div class="card-icon" style="background: var(--primary);">
+                                <i class="fas fa-paw"></i>
+                            </div>
+                        </div>
+                        <div class="card-value">2,450</div>
+                        <div class="card-change positive">
+                            <i class="fas fa-arrow-up"></i> 5.2% from last month
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-title">Poultry Production / कुक्कुट उत्पादन</div>
+                            <div class="card-icon" style="background: var(--secondary);">
+                                <i class="fas fa-egg"></i>
+                            </div>
+                        </div>
+                        <div class="card-value">18,240</div>
+                        <div class="card-change positive">
+                            <i class="fas fa-arrow-up"></i> 3.7% from last week
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-title">Disease Cases / रोग के मामले</div>
+                            <div class="card-icon" style="background: var(--accent);">
+                                <i class="fas fa-virus"></i>
+                            </div>
+                        </div>
+                        <div class="card-value">12</div>
+                        <div class="card-change negative">
+                            <i class="fas fa-arrow-up"></i> 2 new cases
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-title">Visitors Today / आज के आगंतुक</div>
+                            <div class="card-icon" style="background: var(--primary-light);">
+                                <i class="fas fa-users"></i>
+                            </div>
+                        </div>
+                        <div class="card-value">8</div>
+                        <div class="card-change positive">
+                            <i class="fas fa-arrow-down"></i> 2 less than yesterday
+                        </div>
+                    </div>
+                </div>
+
+                <div class="dashboard-charts">
+                    <div class="chart-container">
+                        <div class="chart-header">
+                            <div class="chart-title">Production Trends / उत्पादन रुझान</div>
+                            <div class="chart-actions">
+                                <select>
+                                    <option>Last 7 days</option>
+                                    <option>Last 30 days</option>
+                                    <option>Last 3 months</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="chart-wrapper">
+                            <canvas id="productionChart"></canvas>
+                        </div>
+                    </div>
+                    <div class="chart-container">
+                        <div class="chart-header">
+                            <div class="chart-title">Disease Distribution / रोग वितरण</div>
+                            <div class="chart-actions">
+                                <select>
+                                    <option>This month</option>
+                                    <option>Last month</option>
+                                    <option>Last 3 months</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="chart-wrapper">
+                            <canvas id="diseaseChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="recent-activities">
+                    <div class="chart-header">
+                        <div class="chart-title">Recent Activities / हाल की गतिविधियां</div>
+                        <div class="chart-actions">
+                            <button class="btn btn-primary">View All / सभी देखें</button>
+                        </div>
+                    </div>
+                    <div class="activity-list">
+                        <div class="activity-item">
+                            <div class="activity-icon" style="background: var(--primary);">
+                                <i class="fas fa-truck"></i>
+                            </div>
+                            <div class="activity-details">
+                                <div class="activity-title">Feed delivery completed / चारा वितरण पूरा</div>
+                                <div class="activity-time">10:24 AM · Today / आज</div>
+                            </div>
+                        </div>
+                        <div class="activity-item">
+                            <div class="activity-icon" style="background: var(--secondary);">
+                                <i class="fas fa-user-md"></i>
+                            </div>
+                            <div class="activity-details">
+                                <div class="activity-title">Dr. Sharma visited for routine checkup / डॉ. शर्मा नियमित जांच के लिए आए</div>
+                                <div class="activity-time">09:15 AM · Today / आज</div>
+                            </div>
+                        </div>
+                        <div class="activity-item">
+                            <div class="activity-icon" style="background: var(--accent);">
+                                <i class="fas fa-exclamation-triangle"></i>
+                            </div>
+                            <div class="activity-details">
+                                <div class="activity-title">Alert: Temperature anomaly in Barn B / चेतावनी: बार्न बी में तापमान असामान्य</div>
+                                <div class="activity-time">Yesterday · 4:30 PM / कल</div>
+                            </div>
+                        </div>
+                        <div class="activity-item">
+                            <div class="activity-icon" style="background: var(--primary-light);">
+                                <i class="fas fa-syringe"></i>
+                            </div>
+                            <div class="activity-details">
+                                <div class="activity-title">Vaccination round completed for Sows / सूअरों के लिए टीकाकरण दौर पूरा</div>
+                                <div class="activity-time">Yesterday · 2:15 PM / कल</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Visitor Tracking Section -->
+            <div id="visitor-log" class="dashboard-section visitor-log">
+                <h2 class="section-title"><i class="fas fa-users"></i> Visitor Tracking / आगंतुक ट्रैकिंग</h2>
+                <div class="chart-header">
+                    <div class="chart-title">Recent Visitors / हाल के आगंतुक</div>
+                    <div class="chart-actions">
+                        <button class="btn btn-primary">Add New Visitor / नया आगंतुक जोड़ें</button>
+                    </div>
+                </div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Name / नाम</th>
+                            <th>Company / कंपनी</th>
+                            <th>Vehicle / वाहन</th>
+                            <th>Entry Time / प्रवेश समय</th>
+                            <th>Exit Time / निकास समय</th>
+                            <th>Purpose / उद्देश्य</th>
+                            <th>Status / स्थिति</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>डॉ. राजेश शर्मा</td>
+                            <td>पशु चिकित्सा सेवाएं</td>
+                            <td>DL 05 AB 1234</td>
+                            <td>09:15 AM</td>
+                            <td>11:30 AM</td>
+                            <td>Routine Checkup / नियमित जांच</td>
+                            <td><span class="status-badge status-completed">Completed / पूर्ण</span></td>
+                        </tr>
+                        <tr>
+                            <td>मोहन सिंह</td>
+                            <td>फीड सप्लाई इंडिया</td>
+                            <td>UP 15 CD 5678</td>
+                            <td>10:00 AM</td>
+                            <td>10:45 AM</td>
+                            <td>Feed Delivery / चारा वितरण</td>
+                            <td><span class="status-badge status-completed">Completed / पूर्ण</span></td>
+                        </tr>
+                        <tr>
+                            <td>रवि कुमार</td>
+                            <td>कृषि प्रौद्योगिकी</td>
+                            <td>HR 26 EF 9012</td>
+                            <td>02:15 PM</td>
+                            <td>-</td>
+                            <td>Equipment Maintenance / उपकरण रखरखाव</td>
+                            <td><span class="status-badge status-pending">In Progress / प्रगति पर</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="map-container">
+                    <div class="map-placeholder">
+                        <i class="fas fa-map-marked-alt"></i>
+                        <h3>Farm Access Map / फार्म एक्सेस मानचित्र</h3>
+                        <p>Visual representation of visitor movements and restricted zones</p>
+                        <p class="hindi-text">आगंतुकों की गतिविधियों और प्रतिबंधित क्षेत्रों का दृश्य प्रतिनिधित्व</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Disease Tracking Section -->
+            <div id="disease-tracking" class="dashboard-section disease-tracking">
+                <h2 class="section-title"><i class="fas fa-virus"></i> Disease Tracking / रोग ट्रैकिंग</h2>
+                <div class="dashboard-cards">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-title">Active Cases / सक्रिय मामले</div>
+                            <div class="card-icon" style="background: var(--accent);">
+                                <i class="fas fa-exclamation-triangle"></i>
+                            </div>
+                        </div>
+                        <div class="card-value">5</div>
+                        <div class="card-change negative">
+                            <i class="fas fa-arrow-up"></i> 2 new cases this week
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-title">Recovered Cases / ठीक हुए मामले</div>
+                            <div class="card-icon" style="background: var(--primary);">
+                                <i class="fas fa-heart"></i>
+                            </div>
+                        </div>
+                        <div class="card-value">42</div>
+                        <div class="card-change positive">
+                            <i class="fas fa-arrow-up"></i> 8 recoveries this month
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-title">Quarantined Animals / संगरोधित पशु</div>
+                            <div class="card-icon" style="background: var(--secondary);">
+                                <i class="fas fa-procedures"></i>
+                            </div>
+                        </div>
+                        <div class="card-value">18</div>
+                        <div class="card-change negative">
+                            <i class="fas fa-arrow-up"></i> 5 new quarantines
+                        </div>
+                    </div>
+                </div>
+
+                <div class="chart-container">
+                    <div class="chart-header">
+                        <div class="chart-title">Disease Outbreak Map / रोग प्रकोप मानचित्र</div>
+                        <div class="chart-actions">
+                            <button class="btn btn-primary">Report New Case / नया मामला रिपोर्ट करें</button>
+                        </div>
+                    </div>
+                    <div class="map-container">
+                        <div class="map-placeholder">
+                            <i class="fas fa-map"></i>
+                            <h3>Disease Hotspot Mapping / रोग हॉटस्पॉट मैपिंग</h3>
+                            <p>Geographic visualization of disease outbreaks and affected zones</p>
+                            <p class="hindi-text">रोग प्रकोपों और प्रभावित क्षेत्रों का भौगोलिक दृश्य</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="chart-container">
+                    <div class="chart-header">
+                        <div class="chart-title">Recent Disease Reports / हाल की रोग रिपोर्ट</div>
+                        <div class="chart-actions">
+                            <select>
+                                <option>Last 7 days</option>
+                                <option>Last 30 days</option>
+                                <option>Last 3 months</option>
+                            </select>
+                        </div>
+                    </div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Disease / रोग</th>
+                                <th>Location / स्थान</th>
+                                <th>Reported Date / रिपोर्ट तिथि</th>
+                                <th>Animals Affected / प्रभावित पशु</th>
+                                <th>Status / स्थिति</th>
+                                <th>Actions / कार्रवाई</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Avian Influenza / एवियन इन्फ्लुएंजा</td>
+                                <td>Poultry Barn A / कुक्कुट शेड A</td>
+                                <td>Mar 12, 2025</td>
+                                <td>24</td>
+                                <td><span class="status-badge status-critical">Critical / गंभीर</span></td>
+                                <td><button class="btn btn-primary">View Details / विवरण देखें</button></td>
+                            </tr>
+                            <tr>
+                                <td>Swine Flu / स्वाइन फ्लू</td>
+                                <td>Pig Pen 3 / सुअर बाड़ा 3</td>
+                                <td>Mar 10, 2025</td>
+                                <td>8</td>
+                                <td><span class="status-badge status-pending">Monitoring / निगरानी</span></td>
+                                <td><button class="btn btn-primary">View Details / विवरण देखें</button></td>
+                            </tr>
+                            <tr>
+                                <td>Foot and Mouth / खुरपका मुंहपका</td>
+                                <td>Grazing Field B / चरागाह क्षेत्र B</td>
+                                <td>Mar 5, 2025</td>
+                                <td>3</td>
+                                <td><span class="status-badge status-completed">Contained / नियंत्रित</span></td>
+                                <td><button class="btn btn-primary">View Details / विवरण देखें</button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Vaccine Tracker Section -->
+            <div id="vaccine-tracker" class="dashboard-section vaccine-tracker">
+                <h2 class="section-title"><i class="fas fa-syringe"></i> Vaccine Tracker / टीका ट्रैकर</h2>
+                <div class="dashboard-cards">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-title">Vaccinations This Month</div>
+                            <div class="card-icon" style="background: var(--primary);">
+                                <i class="fas fa-syringe"></i>
+                            </div>
+                        </div>
+                        <div class="card-value">1,248</div>
+                        <div class="card-change positive">
+                            <i class="fas fa-arrow-up"></i> 84% of target
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-title">Upcoming Vaccinations</div>
+                            <div class="card-icon" style="background: var(--secondary);">
+                                <i class="fas fa-calendar-alt"></i>
+                            </div>
+                        </div>
+                        <div class="card-value">342</div>
+                        <div class="card-change negative">
+                            <i class="fas fa-exclamation-circle"></i> Due next week
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-title">Vaccine Stock</div>
+                            <div class="card-icon" style="background: var(--accent);">
+                                <i class="fas fa-vial"></i>
+                            </div>
+                        </div>
+                        <div class="card-value">1,850</div>
+                        <div class="card-change negative">
+                            <i class="fas fa-arrow-down"></i> Reorder needed
+                        </div>
+                    </div>
+                </div>
+
+                <div class="chart-container">
+                    <div class="chart-header">
+                        <div class="chart-title">Vaccination Schedule</div>
+                        <div class="chart-actions">
+                            <button class="btn btn-primary">Add New Schedule</button>
+                        </div>
+                    </div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Vaccine</th>
+                                <th>Animal Group</th>
+                                <th>Schedule Date</th>
+                                <th>Status</th>
+                                <th>Veterinarian</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Influenza A</td>
+                                <td>Poultry - Layer Hens</td>
+                                <td>Mar 15, 2025</td>
+                                <td><span class="status-badge status-pending">Scheduled</span></td>
+                                <td>Dr. Sarah Johnson</td>
+                                <td><button class="btn btn-primary">View Details</button></td>
+                            </tr>
+                            <tr>
+                                <td>PRRS</td>
+                                <td>Pigs - Sows</td>
+                                <td>Mar 18, 2025</td>
+                                <td><span class="status-badge status-pending">Scheduled</span></td>
+                                <td>Dr. Michael Brown</td>
+                                <td><button class="btn btn-primary">View Details</button></td>
+                            </tr>
+                            <tr>
+                                <td>Newcastle Disease</td>
+                                <td>Poultry - Broilers</td>
+                                <td>Mar 5, 2025</td>
+                                <td><span class="status-badge status-completed">Completed</span></td>
+                                <td>Dr. Sarah Johnson</td>
+                                <td><button class="btn btn-primary">View Details</button></td>
+                            </tr>
+                            <tr>
+                                <td>Foot and Mouth</td>
+                                <td>Cattle - All</td>
+                                <td>Feb 28, 2025</td>
+                                <td><span class="status-badge status-completed">Completed</span></td>
+                                <td>Dr. Robert Chen</td>
+                                <td><button class="btn btn-primary">View Details</button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Poultry Production Section -->
+            <div id="poultry-production" class="dashboard-section poultry-production">
+                <h2 class="section-title"><i class="fas fa-egg"></i> Poultry Production / कुक्कुट उत्पादन</h2>
+                <div class="dashboard-cards">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-title">Eggs Collected Today</div>
+                            <div class="card-icon" style="background: var(--secondary);">
+                                <i class="fas fa-egg"></i>
+                            </div>
+                        </div>
+                        <div class="card-value">8,425</div>
+                        <div class="card-change positive">
+                            <i class="fas fa-arrow-up"></i> 2.3% from yesterday
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-title">Feed Consumption</div>
+                            <div class="card-icon" style="background: var(--primary);">
+                                <i class="fas fa-utensils"></i>
+                            </div>
+                        </div>
+                        <div class="card-value">1.2T</div>
+                        <div class="card-change negative">
+                            <i class="fas fa-arrow-up"></i> 5% over target
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-title">Mortality Rate</div>
+                            <div class="card-icon" style="background: var(--accent);">
+                                <i class="fas fa-skull-crossbones"></i>
+                            </div>
+                        </div>
+                        <div class="card-value">0.8%</div>
+                        <div class="card-change positive">
+                            <i class="fas fa-arrow-down"></i> 0.2% improvement
+                        </div>
+                    </div>
+                </div>
+
+                <div class="chart-container">
+                    <div class="chart-header">
+                        <div class="chart-title">Production Trends</div>
+                        <div class="chart-actions">
+                            <select>
+                                <option>Last 7 days</option>
+                                <option>Last 30 days</option>
+                                <option>Last 3 months</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="chart-wrapper">
+                        <canvas id="poultryChart"></canvas>
+                    </div>
+                </div>
+
+                <div class="chart-container">
+                    <div class="chart-header">
+                        <div class="chart-title">Barn Performance</div>
+                        <div class="chart-actions">
+                            <button class="btn btn-primary">Generate Report</button>
+                        </div>
+                    </div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Barn ID</th>
+                                <th>Bird Count</th>
+                                <th>Egg Production</th>
+                                <th>Feed Efficiency</th>
+                                <th>Health Score</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Barn A</td>
+                                <td>5,200</td>
+                                <td>4,850</td>
+                                <td>2.1</td>
+                                <td>92%</td>
+                                <td><span class="status-badge status-completed">Optimal</span></td>
+                            </tr>
+                            <tr>
+                                <td>Barn B</td>
+                                <td>4,800</td>
+                                <td>4,520</td>
+                                <td>2.3</td>
+                                <td>88%</td>
+                                <td><span class="status-badge status-pending">Good</span></td>
+                            </tr>
+                            <tr>
+                                <td>Barn C</td>
+                                <td>5,500</td>
+                                <td>4,950</td>
+                                <td>2.4</td>
+                                <td>85%</td>
+                                <td><span class="status-badge status-pending">Good</span></td>
+                            </tr>
+                            <tr>
+                                <td>Barn D</td>
+                                <td>4,500</td>
+                                <td>3,980</td>
+                                <td>2.6</td>
+                                <td>78%</td>
+                                <td><span class="status-badge status-critical">Needs Attention</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Pig Production Section -->
+            <div id="pig-production" class="dashboard-section pig-production">
+                <h2 class="section-title"><i class="fas fa-piggy-bank"></i> Pig Production / सुअर उत्पादन</h2>
+                <div class="dashboard-cards">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-title">Total Pigs</div>
+                            <div class="card-icon" style="background: var(--primary);">
+                                <i class="fas fa-piggy-bank"></i>
+                            </div>
+                        </div>
+                        <div class="card-value">1,250</div>
+                        <div class="card-change positive">
+                            <i class="fas fa-arrow-up"></i> 4.5% from last month
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-title">New Piglets</div>
+                            <div class="card-icon" style="background: var(--secondary);">
+                                <i class="fas fa-baby"></i>
+                            </div>
+                        </div>
+                        <div class="card-value">85</div>
+                        <div class="card-change positive">
+                            <i class="fas fa-arrow-up"></i> 12 this week
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-title">Feed Consumption</div>
+                            <div class="card-icon" style="background: var(--accent);">
+                                <i class="fas fa-utensils"></i>
+                            </div>
+                        </div>
+                        <div class="card-value">3.2T</div>
+                        <div class="card-change negative">
+                            <i class="fas fa-arrow-up"></i> 8% over target
+                        </div>
+                    </div>
+                </div>
+
+                <div class="chart-container">
+                    <div class="chart-header">
+                        <div class="chart-title">Pig Growth Trends</div>
+                        <div class="chart-actions">
+                            <select>
+                                <option>Last 7 days</option>
+                                <option>Last 30 days</option>
+                                <option>Last 3 months</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="chart-wrapper">
+                        <canvas id="pigChart"></canvas>
+                    </div>
+                </div>
+
+                <div class="chart-container">
+                    <div class="chart-header">
+                        <div class="chart-title">Pen Performance</div>
+                        <div class="chart-actions">
+                            <button class="btn btn-primary">Generate Report</button>
+                        </div>
+                    </div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Pen ID</th>
+                                <th>Pig Count</th>
+                                <th>Weight Gain</th>
+                                <th>Feed Efficiency</th>
+                                <th>Health Score</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Pen A</td>
+                                <td>120</td>
+                                <td>45kg avg</td>
+                                <td>3.1</td>
+                                <td>94%</td>
+                                <td><span class="status-badge status-completed">Optimal</span></td>
+                            </tr>
+                            <tr>
+                                <td>Pen B</td>
+                                <td>95</td>
+                                <td>42kg avg</td>
+                                <td>3.3</td>
+                                <td>87%</td>
+                                <td><span class="status-badge status-pending">Good</span></td>
+                            </tr>
+                            <tr>
+                                <td>Pen C</td>
+                                <td>110</td>
+                                <td>38kg avg</td>
+                                <td>3.6</td>
+                                <td>82%</td>
+                                <td><span class="status-badge status-pending">Fair</span></td>
+                            </tr>
+                            <tr>
+                                <td>Pen D</td>
+                                <td>85</td>
+                                <td>35kg avg</td>
+                                <td>3.9</td>
+                                <td>75%</td>
+                                <td><span class="status-badge status-critical">Needs Attention</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Market Trends Section -->
+            <div id="market-trends" class="dashboard-section market-trends">
+                <h2 class="section-title"><i class="fas fa-chart-line"></i> Market Trends / बाजार रुझान</h2>
+                <div class="dashboard-cards">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-title">Current Egg Price</div>
+                            <div class="card-icon" style="background: var(--secondary);">
+                                <i class="fas fa-dollar-sign"></i>
+                            </div>
+                        </div>
+                        <div class="card-value">₹7.85/dozen</div>
+                        <div class="card-change positive">
+                            <i class="fas fa-arrow-up"></i> 3.2% from last week
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-title">Pork Price</div>
+                            <div class="card-icon" style="background: var(--primary);">
+                                <i class="fas fa-dollar-sign"></i>
+                            </div>
+                        </div>
+                        <div class="card-value">₹320/kg</div>
+                        <div class="card-change negative">
+                            <i class="fas fa-arrow-down"></i> 1.8% from last week
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-title">Feed Cost</div>
+                            <div class="card-icon" style="background: var(--accent);">
+                                <i class="fas fa-dollar-sign"></i>
+                            </div>
+                        </div>
+                        <div class="card-value">₹42/kg</div>
+                        <div class="card-change negative">
+                            <i class="fas fa-arrow-up"></i> 2.5% from last month
+                        </div>
+                    </div>
+                </div>
+
+                <div class="chart-container">
+                    <div class="chart-header">
+                        <div class="chart-title">Price Trends</div>
+                        <div class="chart-actions">
+                            <select>
+                                <option>Last 30 days</option>
+                                <option>Last 3 months</option>
+                                <option>Last 6 months</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="chart-wrapper">
+                        <canvas id="marketChart"></canvas>
+                    </div>
+                </div>
+
+                <div class="chart-container">
+                    <div class="chart-header">
+                        <div class="chart-title">Regional Market Comparison</div>
+                        <div class="chart-actions">
+                            <button class="btn btn-primary">Export Data</button>
+                        </div>
+                    </div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Region</th>
+                                <th>Egg Price</th>
+                                <th>Pork Price</th>
+                                <th>Poultry Price</th>
+                                <th>Trend</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>North East</td>
+                                <td>₹8.20/dozen</td>
+                                <td>₹335/kg</td>
+                                <td>₹280/kg</td>
+                                <td><span class="status-badge status-completed">Stable</span></td>
+                            </tr>
+                            <tr>
+                                <td>Mid West</td>
+                                <td>₹7.60/dozen</td>
+                                <td>₹315/kg</td>
+                                <td>₹270/kg</td>
+                                <td><span class="status-badge status-pending">Rising</span></td>
+                            </tr>
+                            <tr>
+                                <td>South</td>
+                                <td>₹7.85/dozen</td>
+                                <td>₹320/kg</td>
+                                <td>₹275/kg</td>
+                                <td><span class="status-badge status-completed">Stable</span></td>
+                            </tr>
+                            <tr>
+                                <td>West</td>
+                                <td>₹8.50/dozen</td>
+                                <td>₹350/kg</td>
+                                <td>₹295/kg</td>
+                                <td><span class="status-badge status-critical">Falling</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // DOM Elements
+        const loginPage = document.getElementById('login-page');
+        const dashboard = document.getElementById('dashboard');
+        const loginForm = document.getElementById('login-form');
+        const menuItems = document.querySelectorAll('.menu-item');
+        const dashboardSections = document.querySelectorAll('.dashboard-section');
+        const logoutBtn = document.getElementById('logout-btn');
+        const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
+        const sidebar = document.querySelector('.sidebar');
+
+        // Demo login credentials
+        const demoAccounts = {
+            'farmer1': 'demo123',
+            'vet1': 'demo123',
+            'manager1': 'demo123'
+        };
+
+        // Login functionality
+        loginForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            const userType = document.getElementById('user-type').value;
+            
+            // Check if credentials match demo accounts
+            if (demoAccounts[username] && demoAccounts[username] === password) {
+                // Successful login
+                loginPage.style.display = 'none';
+                dashboard.style.display = 'flex';
+                
+                // Update user info based on login
+                const userInfo = document.querySelector('.user-info');
+                const userName = userInfo.querySelector('.user-name');
+                const userRole = userInfo.querySelector('.user-role');
+                const userAvatar = userInfo.querySelector('.user-avatar');
+                
+                if (username === 'farmer1') {
+                    userName.textContent = 'राम सिंह';
+                    userRole.textContent = 'Farmer / किसान';
+                    userAvatar.textContent = 'र';
+                } else if (username === 'vet1') {
+                    userName.textContent = 'डॉ. प्रिया शर्मा';
+                    userRole.textContent = 'Veterinarian / पशु चिकित्सक';
+                    userAvatar.textContent = 'प';
+                } else if (username === 'manager1') {
+                    userName.textContent = 'अमित कुमार';
+                    userRole.textContent = 'Farm Manager / फार्म प्रबंधक';
+                    userAvatar.textContent = 'अ';
+                }
+                
+                // Initialize charts
+                initializeCharts();
+            } else {
+                alert('Invalid username or password. Please use the demo accounts provided.');
+            }
+        });
+
+        // Menu navigation - FIXED VERSION
+        menuItems.forEach(item => {
+            if (item.id !== 'logout-btn') {
+                item.addEventListener('click', function() {
+                    const target = this.getAttribute('data-target');
+                    
+                    // Update active menu item
+                    menuItems.forEach(i => i.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    // Show target section and hide others
+                    dashboardSections.forEach(section => {
+                        section.classList.remove('active');
+                    });
+                    document.getElementById(target).classList.add('active');
+                });
+            }
+        });
+
+        // Logout functionality
+        logoutBtn.addEventListener('click', function() {
+            dashboard.style.display = 'none';
+            loginPage.style.display = 'flex';
+            
+            // Reset form
+            loginForm.reset();
+        });
+
+        // Mobile menu toggle
+        mobileMenuToggle.addEventListener('click', function() {
+            sidebar.classList.toggle('mobile-open');
+            if (sidebar.classList.contains('mobile-open')) {
+                sidebar.style.width = '280px';
+                document.querySelector('.main-content').style.marginLeft = '280px';
+            } else {
+                sidebar.style.width = '0';
+                document.querySelector('.main-content').style.marginLeft = '0';
+            }
+        });
+
+        // Initialize charts
+        function initializeCharts() {
+            // Production Trends Chart
+            const productionCtx = document.getElementById('productionChart').getContext('2d');
+            const productionChart = new Chart(productionCtx, {
+                type: 'line',
+                data: {
+                    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct'],
+                    datasets: [
+                        {
+                            label: 'Poultry Production',
+                            data: [12000, 13500, 14200, 15800, 16500, 17200, 16800, 17400, 18200, 18800],
+                            borderColor: '#4caf50',
+                            backgroundColor: 'rgba(76, 175, 80, 0.1)',
+                            tension: 0.3,
+                            fill: true
+                        },
+                        {
+                            label: 'Pig Production',
+                            data: [800, 950, 1100, 1250, 1400, 1520, 1450, 1580, 1650, 1720],
+                            borderColor: '#ff9800',
+                            backgroundColor: 'rgba(255, 152, 0, 0.1)',
+                            tension: 0.3,
+                            fill: true
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+
+            // Disease Distribution Chart
+            const diseaseCtx = document.getElementById('diseaseChart').getContext('2d');
+            const diseaseChart = new Chart(diseaseCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Avian Influenza', 'Swine Flu', 'Foot and Mouth', 'Other'],
+                    datasets: [{
+                        data: [45, 25, 20, 10],
+                        backgroundColor: [
+                            '#f44336',
+                            '#ff9800',
+                            '#4caf50',
+                            '#9e9e9e'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                        }
+                    }
+                }
+            });
+
+            // Poultry Production Chart
+            const poultryCtx = document.getElementById('poultryChart').getContext('2d');
+            const poultryChart = new Chart(poultryCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['Barn A', 'Barn B', 'Barn C', 'Barn D'],
+                    datasets: [{
+                        label: 'Egg Production (per day)',
+                        data: [4850, 4520, 4950, 3980],
+                        backgroundColor: [
+                            'rgba(76, 175, 80, 0.7)',
+                            'rgba(76, 175, 80, 0.7)',
+                            'rgba(76, 175, 80, 0.7)',
+                            'rgba(244, 67, 54, 0.7)'
+                        ],
+                        borderColor: [
+                            '#4caf50',
+                            '#4caf50',
+                            '#4caf50',
+                            '#f44336'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+
+            // Pig Production Chart
+            const pigCtx = document.getElementById('pigChart').getContext('2d');
+            const pigChart = new Chart(pigCtx, {
+                type: 'line',
+                data: {
+                    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+                    datasets: [
+                        {
+                            label: 'Pig Weight (kg)',
+                            data: [35, 38, 42, 45, 48, 50],
+                            borderColor: '#ff9800',
+                            backgroundColor: 'rgba(255, 152, 0, 0.1)',
+                            tension: 0.3,
+                            fill: true
+                        },
+                        {
+                            label: 'Feed Efficiency',
+                            data: [3.8, 3.6, 3.4, 3.2, 3.1, 3.0],
+                            borderColor: '#4caf50',
+                            backgroundColor: 'rgba(76, 175, 80, 0.1)',
+                            tension: 0.3,
+                            fill: true,
+                            yAxisID: 'y1'
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: false,
+                            title: {
+                                display: true,
+                                text: 'Weight (kg)'
+                            }
+                        },
+                        y1: {
+                            position: 'right',
+                            beginAtZero: false,
+                            title: {
+                                display: true,
+                                text: 'Feed Efficiency'
+                            },
+                            grid: {
+                                drawOnChartArea: false
+                            }
+                        }
+                    }
+                }
+            });
+
+            // Market Trends Chart
+            const marketCtx = document.getElementById('marketChart').getContext('2d');
+            const marketChart = new Chart(marketCtx, {
+                type: 'line',
+                data: {
+                    labels: ['Week 1', 'Week 2', 'Week 3', 'Week 4', 'Week 5', 'Week 6'],
+                    datasets: [
+                        {
+                            label: 'Egg Price (₹/dozen)',
+                            data: [7.50, 7.60, 7.65, 7.70, 7.80, 7.85],
+                            borderColor: '#4caf50',
+                            backgroundColor: 'transparent',
+                            tension: 0.3
+                        },
+                        {
+                            label: 'Pork Price (₹/kg)',
+                            data: [325, 323, 322, 321, 320, 320],
+                            borderColor: '#ff9800',
+                            backgroundColor: 'transparent',
+                            tension: 0.3
+                        },
+                        {
+                            label: 'Feed Cost (₹/kg)',
+                            data: [41, 41.5, 41.8, 42, 42, 42],
+                            borderColor: '#f44336',
+                            backgroundColor: 'transparent',
+                            tension: 0.3
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: false
+                        }
+                    }
+                }
+            });
+        }
+    </script>
+</body>
+</html>
